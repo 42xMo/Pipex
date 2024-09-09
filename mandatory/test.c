@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:26:04 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/09 03:22:08 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/09 03:27:25 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int main()
 // stdout to the file descriptor returned by open(2). This means that any output
 // from printf(3) will be written to the file instead of the terminal. The file
 // is then closed, and the printf(3) statement writes to the file.
+
 // access(2)
 // access(2) checks whether a process has permission to access a file or
 // directory.
@@ -52,6 +53,7 @@ int main()
 		printf("I don't have permission\n");
 	return (0);
 }*/
+
 // execve(2)
 // execve(2) is a system call that allows you to execute another program from
 // within your program. It replaces the current process image with a new process
@@ -76,6 +78,7 @@ int main()
 // replaces the current process image with the ls command, and the output of ls
 // -l will be printed to the terminal. The printf() statement after execve(2)
 // will not be executed, as the process image has been replaced.
+
 // fork(2)
 // fork(2) is a system call that creates a new process by duplicating the
 // calling process. The new process is known as the child process, while the
@@ -102,6 +105,7 @@ int main()
 // process prints “This is the child process.” to the terminal, while the parent
 // process prints “This is the parent process.” to the terminal. Both processes
 // have a different pid and both exit after printing.
+
 // pipe(8)
 // pipe(8) creates a unidirectional data channel that can be used for
 // interprocess communication. The data written to one end of the pipe can be
@@ -148,6 +152,7 @@ int main()
 // reads the string from the read end of the pipe using read(2), and then prints
 // it to the terminal using printf(3). The pipe is then closed in both processes
 // using close(2).
+
 // unlink(1)
 // unlink(1) is a command that removes a file from the file system. It takes a
 // single argument, which is the path to the file to be removed.
@@ -163,6 +168,7 @@ int main()
 // In this code, unlink(1) is used to remove the file example.txt from the file
 // system. unlink(1) returns 0 if all the files were deleted, and -1 if an error
 // occurred.
+
 // wait(2)
 // wait(2) suspends the execution of its calling process until a child process
 // terminates.
@@ -194,6 +200,7 @@ int main()
 }*/
 // Notice that the message only appears after the child process’ sleep(1)
 // command has ended, and exit(1) is called, terminating its process.
+
 // The Program
 // Parsing
 // This is the first step of your program. It needs to make sure the input is
