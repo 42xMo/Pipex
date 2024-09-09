@@ -6,23 +6,23 @@
 #    By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 03:02:00 by mabdessm          #+#    #+#              #
-#    Updated: 2024/09/03 03:04:02 by mabdessm         ###   ########.fr        #
+#    Updated: 2024/09/09 03:25:51 by mabdessm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
-#BONUS_NAME = pipex_bonus
+BONUS_NAME = pipex_bonus
 CC = cc
 FLAGS = -Wall -Werror -Wextra #-fsanitize=address
 INCLUDES = -I./includes
 
-SRCS = 
+SRCS = mandatory/pipex.c mandatory/test.c
 
-#BONUS_SRCS = 
+BONUS_SRCS = 
 
 OBJS = $(SRCS:.c=.o)
 
-#BONUS_OBJS = $(BONUS_SRCS:.c=.o)
+BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 $(NAME): $(OBJS)
 	@echo "\033[0;31mcompiling ${NAME}...\033[0m"
@@ -30,11 +30,11 @@ $(NAME): $(OBJS)
 	@echo "\033[0;32m${NAME} compiled!\033[0m"
 	@echo
 
-#bonus: $(BONUS_OBJS)
-#	@echo "\033[0;31mcompiling ${BONUS_NAME}...\033[0m"
-#	@$(CC) $(FLAGS) -o $(BONUS_NAME) $(BONUS_OBJS) $(INCLUDES)
-#	@echo "\033[0;32m${BONUS_NAME} compiled!\033[0m"
-#	@echo
+bonus: $(BONUS_OBJS)
+	@echo "\033[0;31mcompiling ${BONUS_NAME}...\033[0m"
+	@$(CC) $(FLAGS) -o $(BONUS_NAME) $(BONUS_OBJS) $(INCLUDES)
+	@echo "\033[0;32m${BONUS_NAME} compiled!\033[0m"
+	@echo
 
 .c.o:
 	@$(CC) $(FLAGS) -c -o $@ $< $(INCLUDES)
