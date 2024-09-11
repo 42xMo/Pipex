@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/11 23:36:34 by mabdessm         ###   ########.fr       */
+/*   Created: 2024/05/06 19:01:12 by mabdessm          #+#    #+#             */
+/*   Updated: 2024/05/08 17:37:32 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "ft_printf.h"
 
-int	main(int argc, char **argv)
+int	ft_putstr(char *str)
 {
-	if (argc == 5)
-	{
-	}
-	else
-		ft_printf("\033[0;31mError : Invalid Number of Arguments!\n\033[0m");
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (write(1, "(null)", 6));
+	while (str[i])
+		ft_putchar(str[i++]);
+	return (i);
 }

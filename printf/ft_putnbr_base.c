@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/11 23:36:34 by mabdessm         ###   ########.fr       */
+/*   Created: 2024/05/07 13:34:52 by mabdessm          #+#    #+#             */
+/*   Updated: 2024/09/11 23:31:28 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "ft_printf.h"
 
-int	main(int argc, char **argv)
+int	ft_putnbr_base(unsigned int nbr, char *base)
 {
-	if (argc == 5)
+	int	i;
+
+	i = 0;
+	if (nbr >= (unsigned int)ft_strlen(base))
 	{
+		i += ft_putnbr_base(nbr / (unsigned int)ft_strlen(base), base);
+		i += ft_putnbr_base(nbr % (unsigned int)ft_strlen(base), base);
 	}
-	else
-		ft_printf("\033[0;31mError : Invalid Number of Arguments!\n\033[0m");
+	if (nbr >= 0 && nbr < (unsigned int)ft_strlen(base))
+		i += ft_putchar(base[nbr]);
+	return (i);
 }
