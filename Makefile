@@ -6,7 +6,7 @@
 #    By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 03:02:00 by mabdessm          #+#    #+#              #
-#    Updated: 2024/09/12 00:04:43 by mabdessm         ###   ########.fr        #
+#    Updated: 2024/09/12 05:52:39 by mabdessm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,10 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra #-fsanitize=address
 INCLUDES = -I./includes
 
-SRCS = 	printf/ft_printf.c printf/putunsigned.c printf/ft_putnbr_base_p.c \
-		printf/ft_putchar.c printf/putnbr.c printf/putstr.c printf/ft_strlen.c \
-		pritnf/ft_putnbr_base.c mandatory/pipex.c mandatory/test.c
+SRCS = 	printf/ft_printf.c printf/ft_putchar.c printf/ft_putnbr_base.c \
+		printf/ft_putnbr_base_p.c printf/ft_putnbr.c printf/ft_putstr.c \
+		printf/ft_putunsigned.c printf/ft_strlen.c mandatory/pipex.c  \
+		mandatory/ft_split.c
 
 BONUS_SRCS = 
 
