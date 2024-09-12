@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/12 06:22:43 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/12 06:26:01 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_check_args(t_pipex *pipex, char **argv, int argc)
 {
 	//opens all files
 	pipex->infile_fd = open(argv[1], O_RDONLY);
-	pipex->outfile_fd = open(argv[argc - 1], O_WRONLY); 
+	pipex->outfile_fd = open(argv[argc - 1], O_WRONLY);
 	//if -1, use access() to know if file exists but doesnt have the rights or if it doesnt exist at all
 	if (pipex->infile_fd == -1)
 		pipex->invalid_infile = 1; // can it be invalid in other ways?
@@ -35,7 +35,7 @@ void	free_string3(char ***str)
 	while (str[++i])
 	{
 		j = -1;
-		while(str[i][++j])
+		while (str[i][++j])
 			free(str[i][j]);
 		free(str[i]);
 	}
@@ -81,7 +81,7 @@ void	assign_pipex(t_pipex *pipex, char **argv, int argc)
 
 int	main(int argc, char **argv)
 {
-	t_pipex pipex;
+	t_pipex	pipex;
 
 	if (argc == 5)
 	{
