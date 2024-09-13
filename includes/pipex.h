@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 03:06:06 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/12 05:46:47 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/13 03:11:41 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_pipex
 	char	***cmd_args;		// stores the commands and their args
 								// example : [["cat"], ["wc","-l"]]
 								// NULL TERMINATE the strings of course
-	//int		commands;		// number of commands (bonus)
+	int		commands;			// number of commands
 	//int		 here_doc;		// 1 if there is here_doc, 0 otherwise (bonus)
 }			t_pipex;
 
