@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:22:43 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 17:19:40 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:31:14 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,6 @@ void	parent(t_pipex *pipex, char **envp, int *fd)
 	}
 }
 
-int	lucie(t_pipex *pipex)
-{
-	if (ft_strncmp(pipex->cmd_args[0][0], "sleep", 5) == 0)
-		return (1);
-	return (0);
-}
-
 void	ft_exec(t_pipex *pipex, char **envp)
 {
 	int		fd[2];
@@ -78,9 +71,9 @@ void	ft_exec(t_pipex *pipex, char **envp)
 	}
 	if (pid == 0)
 		child(pipex, envp, fd);
-	if (lucie(pipex))
+	if (ft_strncmp(pipex->cmd_args[0][0], "sleep", 5) == 0)
 		waitpid(pid, NULL, 0);
 	parent(pipex, envp, fd);
-	if (!lucie(pipex))
+	if (ft_strncmp(pipex->cmd_args[0][0], "sleep", 5) != 0)
 		waitpid(pid, NULL, 0);
 }
