@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:22:43 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 10:56:19 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:30:14 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ void	ft_exec(t_pipex *pipex, char **envp)
 	}
 	if (pid == 0)
 		child(pipex, envp, fd);
-	waitpid(pid, NULL, 0);
 	parent(pipex, envp, fd);
+	waitpid(pid, NULL, 0);
 }
