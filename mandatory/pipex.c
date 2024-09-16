@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 10:46:51 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:41:00 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	ft_cleanup(t_pipex *pipex)
 {
-	if (pipex->cmd_args)
-		free_string3(pipex->cmd_args);
+	free_string3(pipex, pipex->cmd_args);
 	free_paths(pipex, pipex->cmd_paths);
 	if (pipex->infile_fd >= 0)
 		close(pipex->infile_fd);

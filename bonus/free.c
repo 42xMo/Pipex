@@ -6,24 +6,27 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:27:46 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 10:29:41 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:19:05 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
 
-void	free_string3(char ***str)
+void	free_string3(t_pipex *pipex, char ***str)
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	while (str[++i])
+	while (++i < pipex->commands)
 	{
 		j = -1;
-		while (str[i][++j])
-			free(str[i][j]);
-		free(str[i]);
+		if (str[i])
+		{
+			while (str[i][++j])
+				free(str[i][j]);
+			free(str[i]);
+		}
 	}
 	free(str);
 }
@@ -66,4 +69,14 @@ void	command_not_found(t_pipex *pipex)
 			return ;
 		}
 	}
+}
+
+char	*assign_path(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (ft_strncmp("PATH", envp[i], 4))
+		++i;
+	return (envp[i] + 5);
 }

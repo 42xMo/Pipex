@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 03:06:06 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 06:34:10 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:17:39 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		len_word(char const *s, char c, int index);
 char	*get_word(char const *s, char c, int index);
 char	**ft_split(char const *s, char c);
 void	ft_check_args(t_pipex *pipex, char **argv, int argc);
-void	free_string3(char ***str);
+void	free_string3(t_pipex *pipex, char ***str);
 void	ft_parse_args(t_pipex *pipex, char **argv, int argc);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(char *s);
@@ -55,5 +55,6 @@ void	child(t_pipex *pipex, char **envp, int *fd);
 void	parent(t_pipex *pipex, char **envp, int *fd);
 void	ft_exec(t_pipex *pipex, char **envp);
 void	assign_pipex(t_pipex *pipex, char **argv, int argc, char **envp);
+char	*assign_path(char **envp);
 
 #endif

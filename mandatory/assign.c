@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:26:23 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 06:34:09 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:17:44 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,17 @@ void	ft_parse_cmds(t_pipex *pipex, char **envp)
 	int		i;
 	int		j;
 
-	i = 0;
-	while (ft_strncmp("PATH", envp[i], 4))
-		++i;
-	paths = (envp[i] + 5);
+	paths = assign_path(envp);
 	seperate_paths = ft_split(paths, ':');
 	pipex->cmd_paths = ft_calloc(sizeof(char *), pipex->commands + 1);
 	i = -1;
 	while (++i < pipex->commands)
 	{
+		if (!pipex->cmd_args[i] || !pipex->cmd_args[i][0])
+		{
+			pipex->cmd_paths[i] = NULL;
+			continue ;
+		}
 		j = -1;
 		while (++j < ft_strstrlen(seperate_paths))
 		{
