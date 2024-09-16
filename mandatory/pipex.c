@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/13 06:56:06 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 02:13:02 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ void	ft_check_args(t_pipex *pipex, char **argv, int argc)
 	pipex->outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (pipex->infile_fd < 0)
 		pipex->invalid_infile = 1;
+	if (pipex->outfile_fd < 0)
+		pipex->invalid_outfile = 1;
 	close(pipex->infile_fd);
 	close(pipex->outfile_fd);
 	//for visual showcase of the contents of the fds and the bool
-	//ft_printf("%i\n%i\n%i\n", pipex->infile_fd, pipex->outfile_fd, pipex->invalid_infile);
+	//ft_printf("%i\n%i\n", pipex->infile_fd, pipex->outfile_fd);
 }
 
 void	free_string3(char ***str)
@@ -135,7 +137,7 @@ int	ft_strstrlen(char **str)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 		++i;
 	return (i);
 }
@@ -146,9 +148,7 @@ void	free_string2(char **str)
 
 	i = -1;
 	while (str[++i])
-	{
 		free(str[i]);
-	}
 	free(str);
 }
 
@@ -163,10 +163,10 @@ int	fill_cmd_paths(t_pipex *pipex, char	**seperate_paths, int i, int j)
 	if ((access(temp_path, F_OK)) == 0)
 	{
 		pipex->cmd_paths[i] = temp_path;
-		return(1);
+		return (1);
 	}
 	free(temp_path);
-	return(0);
+	return (0);
 }
 
 void	command_not_found(t_pipex *pipex)
@@ -178,7 +178,7 @@ void	command_not_found(t_pipex *pipex)
 	{
 		if (!pipex->cmd_paths[i])
 		{
-			ft_printf("command not found: %s\n", pipex->cmd_args[i][0]);
+			ft_printf("%s: command not found\n", pipex->cmd_args[i][0]);
 			return ;
 		}
 	}
@@ -204,7 +204,7 @@ void	ft_parse_cmds(t_pipex *pipex, char **envp)
 		while (++j < ft_strstrlen(seperate_paths))
 		{
 			if (fill_cmd_paths(pipex, seperate_paths, i, j))
-				break;
+				break ;
 		}
 	}
 	command_not_found(pipex);
@@ -221,15 +221,56 @@ void	ft_cleanup(t_pipex *pipex)
 	free_string2(pipex->cmd_paths);
 }
 
-void	ft_exec(t_pipex *pipex)
+// void	ft_exec(t_pipex *pipex, char **envp)
+// {
+// 	//dup2
+// 	//fork
+// 	//pipe
+// 	//execve
+// 	//wait
+// 	//unlink
+// 	//access
+// }
+
+void	ft_exec(void)
 {
-	//dup2
-	//fork
-	//pipe
-	//execve
-	//wait
-	//unlink
-	//access
+	int		fd[2];
+	pid_t	pid;
+	char buffer[14];	//temp for example
+
+	if (pipe(fd) == -1)
+	{
+		perror("Pipe failed");
+		exit(EXIT_FAILURE);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("Fork failed");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		printf("This is the child process. (pid: %d)\n", getpid());
+		close(fd[0]); // close the read end of the pipe (fd[0])
+					  // since the child only needs to write
+		write(fd[1], "Hello parent!", 13); // writes the string to the write end
+										   // of the pipe (fd[1])
+		close(fd[1]); // close the write end of the pipe (fd[1])
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		printf("This is the parent process. (pid: %d)\n", getpid());
+		close(fd[1]); // close the write end of the pipe (fd[1])
+					  // since the parent only needs to read
+		read(fd[0], buffer, 13); // reads the message from the read end of the
+								 // pipe (fd[0]) into buffer
+		buffer[13] = '\0';
+		close(fd[0]); // close the read end of the pipe (fd[0])
+		printf("Message from child: '%s'\n", buffer);
+		exit(EXIT_SUCCESS);
+	}
 }
 
 void	assign_pipex(t_pipex *pipex, char **argv, int argc, char **envp)
@@ -246,7 +287,8 @@ int	main(int argc, char **argv, char **envp)
 	if (argc == 5)
 	{
 		assign_pipex(&pipex, argv, argc, envp);
-		//ft_exec(&pipex);
+		//ft_exec(&pipex, envp);
+		ft_exec();
 		ft_cleanup(&pipex);
 	}
 	else

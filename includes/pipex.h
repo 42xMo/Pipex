@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 03:06:06 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/13 03:11:41 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/13 10:39:55 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_pipex
 	int		infile_fd;			// fd of the infile
 	int		outfile_fd;			// fd of the outfile
 	int		invalid_infile;		// 1 if infile is invalid, 0 otherwise
+	int		invalid_outfile;	// 1 if outfile is invalid, 0 otherwise
 	char	**cmd_paths;		// stores the path for the commands using envp
 								// example : ["/bin/cat", "/usr/bin/wc"]
 	char	***cmd_args;		// stores the commands and their args
