@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 03:06:06 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/13 10:39:55 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 04:43:47 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,29 @@
 
 # include "../printf/ft_printf.h"
 # include <fcntl.h>
-# include <unistd.h>
-# include <stdlib.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
+# include <unistd.h>
 
 typedef struct s_pipex
 {
-	int		infile_fd;			// fd of the infile
-	int		outfile_fd;			// fd of the outfile
-	int		invalid_infile;		// 1 if infile is invalid, 0 otherwise
-	int		invalid_outfile;	// 1 if outfile is invalid, 0 otherwise
-	char	**cmd_paths;		// stores the path for the commands using envp
-								// example : ["/bin/cat", "/usr/bin/wc"]
-	char	***cmd_args;		// stores the commands and their args
-								// example : [["cat"], ["wc","-l"]]
-								// NULL TERMINATE the strings of course
-	int		commands;			// number of commands
-	//int		 here_doc;		// 1 if there is here_doc, 0 otherwise (bonus)
+	int		infile_fd;
+	int		outfile_fd;
+	int		invalid_infile;
+	int		invalid_outfile;
+	char	**cmd_paths;
+	char	***cmd_args;
+	int		commands;
+	int		cmd_not_found;
+	//int		here_doc;		// 1 if there is here_doc, 0 otherwise (bonus)
 }			t_pipex;
 
-void	*ft_calloc(size_t nmemb, size_t size);
-int		count_words(char const *s, char c);
-int		len_word(char const *s, char c, int index);
-char	*get_word(char const *s, char c, int index);
-char	**ft_split(char const *s, char c);
+void		*ft_calloc(size_t nmemb, size_t size);
+int			count_words(char const *s, char c);
+int			len_word(char const *s, char c, int index);
+char		*get_word(char const *s, char c, int index);
+char		**ft_split(char const *s, char c);
 
 #endif

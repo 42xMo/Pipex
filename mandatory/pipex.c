@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 02:13:02 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 04:45:36 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 
 void	ft_check_args(t_pipex *pipex, char **argv, int argc)
 {
-	//opens all files
+	pipex->invalid_infile = 0;
+	pipex->invalid_outfile = 0;
 	pipex->infile_fd = open(argv[1], O_RDONLY);
 	pipex->outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (pipex->infile_fd < 0)
 		pipex->invalid_infile = 1;
 	if (pipex->outfile_fd < 0)
 		pipex->invalid_outfile = 1;
-	close(pipex->infile_fd);
-	close(pipex->outfile_fd);
-	//for visual showcase of the contents of the fds and the bool
-	//ft_printf("%i\n%i\n", pipex->infile_fd, pipex->outfile_fd);
 }
 
 void	free_string3(char ***str)
@@ -58,19 +55,6 @@ void	ft_parse_args(t_pipex *pipex, char **argv, int argc)
 	}
 	command_args[i] = NULL;
 	pipex->cmd_args = command_args;
-	//for visual showcase of the contents of the char***
-	// int	j;
-	// i = -1;
-	// while (pipex->cmd_args[++i])
-	// {
-	// 	j = -1;
-	// 	while(pipex->cmd_args[i][++j])
-	// 	{
-	// 		ft_printf("%s\n", pipex->cmd_args[i][j]);
-	// 	}
-	// 	ft_printf("\\0\n");
-	// }
-	// ft_printf("number of cmds : %i\n", pipex->commands);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -174,11 +158,13 @@ void	command_not_found(t_pipex *pipex)
 	int	i;
 
 	i = -1;
+	pipex->cmd_not_found = 0;
 	while (++i < pipex->commands)
 	{
 		if (!pipex->cmd_paths[i])
 		{
 			ft_printf("%s: command not found\n", pipex->cmd_args[i][0]);
+			pipex->cmd_not_found = 1;
 			return ;
 		}
 	}
@@ -209,34 +195,54 @@ void	ft_parse_cmds(t_pipex *pipex, char **envp)
 	}
 	command_not_found(pipex);
 	free_string2(seperate_paths);
-	//for visual showcase of the contents of the char**
-	// i = -1;
-	// while (++i < pipex->commands)
-	// 	ft_printf("%s\n", pipex->cmd_paths[i]);
 }
 
 void	ft_cleanup(t_pipex *pipex)
 {
 	free_string3(pipex->cmd_args);
 	free_string2(pipex->cmd_paths);
+	close(pipex->infile_fd);
+	close(pipex->outfile_fd);
 }
 
-// void	ft_exec(t_pipex *pipex, char **envp)
-// {
-// 	//dup2
-// 	//fork
-// 	//pipe
-// 	//execve
-// 	//wait
-// 	//unlink
-// 	//access
-// }
+void	child(t_pipex *pipex, char **envp, int *fd)
+{
+	if (pipex->invalid_infile)
+	{
+		perror("Invalid Infile");
+		exit(EXIT_FAILURE);
+	}
+	dup2(fd[1], STDOUT_FILENO);
+	dup2(pipex->infile_fd, STDIN_FILENO);
+	close(fd[0]);
+	if (execve(pipex->cmd_paths[0], pipex->cmd_args[0], envp) == -1)
+	{
+		perror("Execve Failed");
+		exit(EXIT_FAILURE);
+	}
+}
 
-void	ft_exec(void)
+void	parent(t_pipex *pipex, char **envp, int *fd)
+{
+	if (pipex->invalid_outfile)
+	{
+		perror("Invalid Outfile");
+		exit(EXIT_FAILURE);
+	}
+	dup2(fd[0], STDIN_FILENO);
+	dup2(pipex->outfile_fd, STDOUT_FILENO);
+	close(fd[1]);
+	if (execve(pipex->cmd_paths[1], pipex->cmd_args[1], envp) == -1)
+	{
+		perror("Execve Failed");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	ft_exec(t_pipex *pipex, char **envp)
 {
 	int		fd[2];
 	pid_t	pid;
-	char buffer[14];	//temp for example
 
 	if (pipe(fd) == -1)
 	{
@@ -250,27 +256,9 @@ void	ft_exec(void)
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
-	{
-		printf("This is the child process. (pid: %d)\n", getpid());
-		close(fd[0]); // close the read end of the pipe (fd[0])
-					  // since the child only needs to write
-		write(fd[1], "Hello parent!", 13); // writes the string to the write end
-										   // of the pipe (fd[1])
-		close(fd[1]); // close the write end of the pipe (fd[1])
-		exit(EXIT_SUCCESS);
-	}
-	else
-	{
-		printf("This is the parent process. (pid: %d)\n", getpid());
-		close(fd[1]); // close the write end of the pipe (fd[1])
-					  // since the parent only needs to read
-		read(fd[0], buffer, 13); // reads the message from the read end of the
-								 // pipe (fd[0]) into buffer
-		buffer[13] = '\0';
-		close(fd[0]); // close the read end of the pipe (fd[0])
-		printf("Message from child: '%s'\n", buffer);
-		exit(EXIT_SUCCESS);
-	}
+		child(pipex, envp, fd);
+	waitpid(pid, NULL, 0);
+	parent(pipex, envp, fd);
 }
 
 void	assign_pipex(t_pipex *pipex, char **argv, int argc, char **envp)
@@ -287,8 +275,8 @@ int	main(int argc, char **argv, char **envp)
 	if (argc == 5)
 	{
 		assign_pipex(&pipex, argv, argc, envp);
-		//ft_exec(&pipex, envp);
-		ft_exec();
+		if (!pipex.cmd_not_found)
+			ft_exec(&pipex, envp);
 		ft_cleanup(&pipex);
 	}
 	else
