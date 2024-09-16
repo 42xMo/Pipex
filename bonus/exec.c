@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:22:43 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 06:34:29 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 10:56:19 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	parent(t_pipex *pipex, char **envp, int *fd)
 	dup2(fd[0], STDIN_FILENO);
 	dup2(pipex->outfile_fd, STDOUT_FILENO);
 	close(fd[1]);
-	if (execve(pipex->cmd_paths[1], pipex->cmd_args[1], envp) == -1)
+	if (execve(pipex->cmd_paths[pipex->commands - 1],
+			pipex->cmd_args[pipex->commands - 1], envp) == -1)
 	{
 		perror("Execve Failed");
 		ft_cleanup(pipex);

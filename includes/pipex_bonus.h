@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:21:16 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 06:34:14 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 07:11:45 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_pipex
 	char	***cmd_args;
 	int		commands;
 	int		cmd_not_found;
-	//int		here_doc;		// 1 if there is here_doc, 0 otherwise (bonus)
+	int		here_doc;
 }			t_pipex;
 
 void	*ft_calloc(size_t nmemb, size_t size);

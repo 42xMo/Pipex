@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:27:46 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 06:34:08 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 10:20:05 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	free_paths(t_pipex *pipex, char **str)
 
 	i = -1;
 	while (++i < pipex->commands)
-		free(str[i]);
+	{
+		if (str[i])
+			free(str[i]);
+	}
 	free(str);
 }
 
@@ -58,7 +61,6 @@ void	command_not_found(t_pipex *pipex)
 	{
 		if (!pipex->cmd_paths[i])
 		{
-			ft_printf("%s: Command Not Found\n", pipex->cmd_args[i][0]);
 			pipex->cmd_not_found = 1;
 			return ;
 		}
