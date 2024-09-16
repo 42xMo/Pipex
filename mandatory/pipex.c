@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 04:45:36 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 06:17:28 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,27 @@ int	fill_cmd_paths(t_pipex *pipex, char	**seperate_paths, int i, int j)
 	return (0);
 }
 
+void	free_paths(t_pipex *pipex, char **str)
+{
+	int	i;
+
+	i = -1;
+	while (++i < pipex->commands)
+		free(str[i]);
+	free(str);
+}
+
+void	ft_cleanup(t_pipex *pipex)
+{
+	if (pipex->cmd_args)
+		free_string3(pipex->cmd_args);
+	free_paths(pipex, pipex->cmd_paths);
+	if (pipex->infile_fd >= 0)
+		close(pipex->infile_fd);
+	if (pipex->outfile_fd >= 0)
+		close(pipex->outfile_fd);
+}
+
 void	command_not_found(t_pipex *pipex)
 {
 	int	i;
@@ -163,7 +184,7 @@ void	command_not_found(t_pipex *pipex)
 	{
 		if (!pipex->cmd_paths[i])
 		{
-			ft_printf("%s: command not found\n", pipex->cmd_args[i][0]);
+			ft_printf("%s: Command Not Found\n", pipex->cmd_args[i][0]);
 			pipex->cmd_not_found = 1;
 			return ;
 		}
@@ -197,19 +218,12 @@ void	ft_parse_cmds(t_pipex *pipex, char **envp)
 	free_string2(seperate_paths);
 }
 
-void	ft_cleanup(t_pipex *pipex)
-{
-	free_string3(pipex->cmd_args);
-	free_string2(pipex->cmd_paths);
-	close(pipex->infile_fd);
-	close(pipex->outfile_fd);
-}
-
 void	child(t_pipex *pipex, char **envp, int *fd)
 {
 	if (pipex->invalid_infile)
 	{
 		perror("Invalid Infile");
+		ft_cleanup(pipex);
 		exit(EXIT_FAILURE);
 	}
 	dup2(fd[1], STDOUT_FILENO);
@@ -218,6 +232,7 @@ void	child(t_pipex *pipex, char **envp, int *fd)
 	if (execve(pipex->cmd_paths[0], pipex->cmd_args[0], envp) == -1)
 	{
 		perror("Execve Failed");
+		ft_cleanup(pipex);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -227,6 +242,7 @@ void	parent(t_pipex *pipex, char **envp, int *fd)
 	if (pipex->invalid_outfile)
 	{
 		perror("Invalid Outfile");
+		ft_cleanup(pipex);
 		exit(EXIT_FAILURE);
 	}
 	dup2(fd[0], STDIN_FILENO);
@@ -235,6 +251,7 @@ void	parent(t_pipex *pipex, char **envp, int *fd)
 	if (execve(pipex->cmd_paths[1], pipex->cmd_args[1], envp) == -1)
 	{
 		perror("Execve Failed");
+		ft_cleanup(pipex);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -247,12 +264,14 @@ void	ft_exec(t_pipex *pipex, char **envp)
 	if (pipe(fd) == -1)
 	{
 		perror("Pipe failed");
+		ft_cleanup(pipex);
 		exit(EXIT_FAILURE);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("Fork failed");
+		ft_cleanup(pipex);
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
