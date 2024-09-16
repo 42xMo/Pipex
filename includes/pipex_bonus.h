@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/03 03:06:06 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 06:34:10 by mabdessm         ###   ########.fr       */
+/*   Created: 2024/09/16 06:21:16 by mabdessm          #+#    #+#             */
+/*   Updated: 2024/09/16 06:34:14 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "../printf/ft_printf.h"
 # include <fcntl.h>
@@ -31,6 +31,7 @@ typedef struct s_pipex
 	char	***cmd_args;
 	int		commands;
 	int		cmd_not_found;
+	//int		here_doc;		// 1 if there is here_doc, 0 otherwise (bonus)
 }			t_pipex;
 
 void	*ft_calloc(size_t nmemb, size_t size);

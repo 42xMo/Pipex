@@ -6,11 +6,11 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 06:34:36 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/16 06:34:56 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 void	ft_cleanup(t_pipex *pipex)
 {
@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 
-	if (argc == 5)
+	if (argc >= 5)
 	{
 		assign_pipex(&pipex, argv, argc, envp);
 		if (!pipex.cmd_not_found)

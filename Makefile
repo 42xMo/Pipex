@@ -6,7 +6,7 @@
 #    By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 03:02:00 by mabdessm          #+#    #+#              #
-#    Updated: 2024/09/16 05:41:00 by mabdessm         ###   ########.fr        #
+#    Updated: 2024/09/16 06:34:32 by mabdessm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,14 @@ INCLUDES = -I./includes
 
 SRCS = 	printf/ft_printf.c printf/ft_putchar.c printf/ft_putnbr_base.c \
 		printf/ft_putnbr_base_p.c printf/ft_putnbr.c printf/ft_putstr.c \
-		printf/ft_putunsigned.c printf/ft_strlen.c mandatory/pipex.c  \
-		mandatory/ft_split.c
+		printf/ft_putunsigned.c printf/ft_strlen.c mandatory/pipex.c \
+		mandatory/ft_split.c mandatory/assign.c mandatory/exec.c \
+		mandatory/free.c mandatory/utils.c
 
-BONUS_SRCS = 
+BONUS_SRCS = printf/ft_printf.c printf/ft_putchar.c printf/ft_putnbr_base.c \
+		printf/ft_putnbr_base_p.c printf/ft_putnbr.c printf/ft_putstr.c \
+		printf/ft_putunsigned.c printf/ft_strlen.c bonus/pipex.c \
+		bonus/ft_split.c bonus/assign.c bonus/exec.c bonus/free.c bonus/utils.c
 
 OBJS = $(SRCS:.c=.o)
 
