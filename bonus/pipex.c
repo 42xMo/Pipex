@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 17:18:14 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:30:54 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_cleanup(&pipex);
 		}
 		else
-		{
 			clean_exit(&pipex);
-		}
 	}
 	else
 		ft_printf("\033[0;31mError : Invalid Number of Arguments!\n\033[0m");
