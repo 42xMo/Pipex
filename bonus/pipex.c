@@ -25,15 +25,15 @@ void	ft_cleanup(t_pipex *pipex)
 void	clean_exit(t_pipex *pipex)
 {
 	perror("Command Not Found");
-	if (!pipex->cmd_paths[0])
-	{
-		ft_cleanup(pipex);
-		exit(0);
-	}
-	else if (!pipex->cmd_paths[1])
+	if (!pipex->cmd_paths[pipex->commands - 1])
 	{
 		ft_cleanup(pipex);
 		exit(127);
+	}
+	else
+	{
+		ft_cleanup(pipex);
+		exit(0);
 	}
 }
 
