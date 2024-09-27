@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 03:06:06 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/20 16:08:29 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:24:34 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	free_paths(t_pipex *pipex, char **str);
 void	ft_cleanup(t_pipex *pipex);
 void	command_not_found(t_pipex *pipex);
 void	ft_parse_cmds(t_pipex *pipex, char **envp);
-void	child(t_pipex *pipex, char **envp, int *fd);
-void	parent(t_pipex *pipex, char **envp, int *fd);
-void	ft_exec(t_pipex *pipex, char **envp);
+void	child(t_pipex *pipex, char **envp, int *fd, int i);
+void	parent(int *fd);
+void	ft_exec(t_pipex *pipex, char **envp, int i);
 void	assign_pipex(t_pipex *pipex, char **argv, int argc, char **envp);
 char	*assign_path(char **envp);
 

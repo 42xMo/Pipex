@@ -6,13 +6,13 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:22:43 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 17:30:37 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:24:21 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	child(t_pipex *pipex, char **envp, int *fd)
+void	child(t_pipex *pipex, char **envp, int *fd, int i)
 {
 	if (pipex->invalid_infile)
 	{
@@ -20,29 +20,15 @@ void	child(t_pipex *pipex, char **envp, int *fd)
 		ft_cleanup(pipex);
 		exit(EXIT_FAILURE);
 	}
-	dup2(fd[1], STDOUT_FILENO);
-	dup2(pipex->infile_fd, STDIN_FILENO);
-	close(fd[0]);
-	if (execve(pipex->cmd_paths[0], pipex->cmd_args[0], envp) < 0)
-	{
-		perror("Execve Failed");
-		ft_cleanup(pipex);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	parent(t_pipex *pipex, char **envp, int *fd)
-{
 	if (pipex->invalid_outfile)
 	{
 		perror("Invalid Outfile");
 		ft_cleanup(pipex);
 		exit(EXIT_FAILURE);
 	}
-	dup2(fd[0], STDIN_FILENO);
-	dup2(pipex->outfile_fd, STDOUT_FILENO);
-	close(fd[1]);
-	if (execve(pipex->cmd_paths[1], pipex->cmd_args[1], envp) < 0)
+	dup2(fd[1], STDOUT_FILENO);
+	close(fd[0]);
+	if (execve(pipex->cmd_paths[i], pipex->cmd_args[i], envp) < 0)
 	{
 		perror("Execve Failed");
 		ft_cleanup(pipex);
@@ -50,7 +36,13 @@ void	parent(t_pipex *pipex, char **envp, int *fd)
 	}
 }
 
-void	ft_exec(t_pipex *pipex, char **envp)
+void	parent(int *fd)
+{
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[1]);
+}
+
+void	ft_exec(t_pipex *pipex, char **envp, int i)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -69,10 +61,7 @@ void	ft_exec(t_pipex *pipex, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
-		child(pipex, envp, fd);
-	if (ft_strncmp(pipex->cmd_args[0][0], "sleep", 5) == 0)
-		waitpid(pid, NULL, 0);
-	parent(pipex, envp, fd);
-	if (ft_strncmp(pipex->cmd_args[0][0], "sleep", 5) != 0)
-		waitpid(pid, NULL, 0);
+		child(pipex, envp, fd, i);
+	else
+		parent(fd);
 }

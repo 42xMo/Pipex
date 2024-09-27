@@ -6,12 +6,11 @@
 #    By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 03:02:00 by mabdessm          #+#    #+#              #
-#    Updated: 2024/09/16 07:12:39 by mabdessm         ###   ########.fr        #
+#    Updated: 2024/09/27 14:11:42 by mabdessm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
-BONUS_NAME = pipex_bonus
 CC = cc
 FLAGS = -Wall -Werror -Wextra #-fsanitize=address
 INCLUDES = -I./includes
@@ -37,11 +36,13 @@ $(NAME): $(OBJS)
 	@echo "\033[0;32m${NAME} compiled!\033[0m"
 	@echo
 
-bonus: $(BONUS_OBJS)
-	@echo "\033[0;31mcompiling ${BONUS_NAME}...\033[0m"
-	@$(CC) $(FLAGS) -o $(BONUS_NAME) $(BONUS_OBJS) $(INCLUDES)
-	@echo "\033[0;32m${BONUS_NAME} compiled!\033[0m"
+bonus_compile: $(BONUS_OBJS)
+	@echo "\033[0;31mcompiling ${NAME}...\033[0m"
+	@$(CC) $(FLAGS) -o $(NAME) $(BONUS_OBJS) $(INCLUDES)
+	@echo "\033[0;32m${NAME} compiled!\033[0m"
 	@echo
+
+bonus: fclean bonus_compile
 
 .c.o:
 	@$(CC) $(FLAGS) -c -o $@ $< $(INCLUDES)
@@ -56,7 +57,7 @@ clean:
 
 fclean: clean
 	@echo "\033[0;31mdeleting ${NAME} executable...\033[0m"
-	@$(RM) $(NAME) $(BONUS_NAME)
+	@$(RM) $(NAME)
 	@echo "\033[0;32m${NAME} executable deleted!\033[0m"
 	@echo
 
