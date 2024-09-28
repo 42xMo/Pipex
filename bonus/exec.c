@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:22:43 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/27 16:31:26 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/28 21:50:48 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,6 @@ void	child(t_pipex *pipex, char **envp, int *fd, int i)
 	if (pipex->invalid_infile)
 	{
 		perror("Invalid Infile");
-		ft_cleanup(pipex);
-		exit(EXIT_FAILURE);
-	}
-	if (pipex->invalid_outfile)
-	{
-		perror("Invalid Outfile");
 		ft_cleanup(pipex);
 		exit(EXIT_FAILURE);
 	}

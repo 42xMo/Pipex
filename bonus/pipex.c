@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/27 16:33:42 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/28 21:46:47 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,27 @@ int	main(int argc, char **argv, char **envp)
 		assign_pipex(&pipex, argv, argc, envp);
 		if (!pipex.cmd_not_found)
 		{
-			dup2(pipex.infile_fd, 0);
+			dup2(pipex.infile_fd, STDIN_FILENO);
 			i = -1;
 			while (++i < argc - 4)
 				ft_exec(&pipex, envp, i);
-			dup2(pipex.outfile_fd, 1);
+
+		//needs to be in child
+			if (pipex.invalid_outfile)
+			{
+				perror("Invalid Outfile");
+				ft_cleanup(&pipex);
+				exit(EXIT_FAILURE);
+			}
+			dup2(pipex.outfile_fd, STDOUT_FILENO);
 			if (execve(pipex.cmd_paths[i], pipex.cmd_args[i], envp) < 0)
 			{
 				perror("Execve Failed");
 				ft_cleanup(&pipex);
 				exit(EXIT_FAILURE);
 			}
+		//needs to be in child
+		
 		}
 		else
 			clean_exit(&pipex);
