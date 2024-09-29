@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:22:43 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/28 21:54:09 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/29 05:48:55 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,18 @@ void	child(t_pipex *pipex, char **envp, int *fd, int i)
 		ft_cleanup(pipex);
 		exit(EXIT_FAILURE);
 	}
+	//if (i < pipex->commands - 1)
 	dup2(fd[1], STDOUT_FILENO);
+	// else
+	// {
+	// 	if (pipex->invalid_outfile)
+	// 	{
+	// 		perror("Invalid Outfile");
+	// 		ft_cleanup(pipex);
+	// 		exit(EXIT_FAILURE);
+	// 	}
+	// 	dup2(pipex->outfile_fd, STDOUT_FILENO);
+	// }
 	close(fd[0]);
 	if (execve(pipex->cmd_paths[i], pipex->cmd_args[i], envp) < 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/29 02:49:50 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/29 11:35:38 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,24 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc >= 5)
 	{
-		assign_pipex(&pipex, argv, argc, envp);
+		if (ft_strncmp(argv[1], "here_doc", 8) == 0 && argc >= 6)
+		{
+			pipex.here_doc = 1;
+			assign_pipex(&pipex, argv + 1, argc - 1, envp);
+			heredoc(&pipex, argv[2]);
+		}
+		else
+		{
+			pipex.here_doc = 0;
+			assign_pipex(&pipex, argv, argc, envp);
+		}
 		if (!pipex.cmd_not_found)
 		{
 			dup2(pipex.infile_fd, STDIN_FILENO);
 			i = -1;
 			while (++i < pipex.commands - 1) //while (++i < pipex.commands) 
 				ft_exec(&pipex, envp, i);
-
+			// Wait for all children here and not in exec
 		//needs to be in child
 			if (pipex.invalid_outfile)
 			{

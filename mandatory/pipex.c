@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/28 22:17:25 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/29 11:35:45 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,8 @@ void	clean_exit(t_pipex *pipex)
 		ft_cleanup(pipex);
 		exit(127);
 	}
-	else
-	{
-		ft_cleanup(pipex);
-		exit(0);
-	}
+	ft_cleanup(pipex);
+	exit(0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -49,9 +46,9 @@ int	main(int argc, char **argv, char **envp)
 		{
 			dup2(pipex.infile_fd, STDIN_FILENO);
 			i = -1;
-			while (++i < argc - 4)
+			while (++i < pipex.commands - 1) //while (++i < pipex.commands) 
 				ft_exec(&pipex, envp, i);
-
+			// Wait for all children here and not in exec
 		//needs to be in child
 			if (pipex.invalid_outfile)
 			{

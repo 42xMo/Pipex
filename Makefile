@@ -6,7 +6,7 @@
 #    By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 03:02:00 by mabdessm          #+#    #+#              #
-#    Updated: 2024/09/28 22:19:16 by mabdessm         ###   ########.fr        #
+#    Updated: 2024/09/29 06:00:02 by mabdessm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRCS = 	printf/ft_printf.c printf/ft_putchar.c printf/ft_putnbr_base.c \
 BONUS_SRCS = printf/ft_printf.c printf/ft_putchar.c printf/ft_putnbr_base.c \
 		printf/ft_putnbr_base_p.c printf/ft_putnbr.c printf/ft_putstr.c \
 		printf/ft_putunsigned.c printf/ft_strlen.c bonus/pipex.c \
-		bonus/ft_split.c bonus/assign.c bonus/exec.c bonus/free.c bonus/utils.c
+		bonus/ft_split.c bonus/assign.c bonus/exec.c bonus/free.c \
+		bonus/utils.c bonus/get_next_line.c bonus/here_doc.c
 
 OBJS = $(SRCS:.c=.o)
 

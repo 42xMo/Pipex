@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:21:16 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/28 19:45:31 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/29 08:31:10 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# define BUFFER_SIZE 1000000
 
 typedef struct s_pipex
 {
@@ -57,5 +58,7 @@ void	parent(int *fd);
 void	ft_exec(t_pipex *pipex, char **envp, int i);
 void	assign_pipex(t_pipex *pipex, char **argv, int argc, char **envp);
 char	*assign_path(char **envp);
+char	*get_next_line(int fd);
+void	heredoc(t_pipex *pipex, char *limiter);
 
 #endif

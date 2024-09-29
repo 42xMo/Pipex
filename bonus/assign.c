@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:26:23 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/16 17:21:20 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/29 06:38:43 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	ft_check_args(t_pipex *pipex, char **argv, int argc)
 	pipex->invalid_infile = 0;
 	pipex->invalid_outfile = 0;
 	pipex->infile_fd = open(argv[1], O_RDONLY);
-	pipex->outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
+	if (pipex->here_doc)
+		pipex->outfile_fd = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND, 0777);
+	else
+		pipex->outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (pipex->infile_fd < 0)
 		pipex->invalid_infile = 1;
 	if (pipex->outfile_fd < 0)
