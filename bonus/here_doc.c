@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 05:47:06 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/29 08:50:44 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:25:35 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,27 @@ int	ft_compare(char *limiter, char *line)
 	return (1);
 }
 
+void	reopen_heredoc(t_pipex *pipex)
+{
+	pipex->infile_fd = open(".heredoc", O_RDONLY);
+	if (pipex->infile_fd == -1)
+	{
+		perror("Opening Heredoc Failed");
+		exit(EXIT_FAILURE);
+	}
+	if (unlink(".heredoc") == -1)
+	{
+		perror("Failed to remove heredoc file");
+		exit(EXIT_FAILURE);
+	}
+}
+
 void	heredoc(t_pipex *pipex, char *limiter)
 {
 	char	*line;
 	int		heredoc_fd;
 
-	heredoc_fd = open("heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	heredoc_fd = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (heredoc_fd == -1)
 	{
 		perror("Heredoc Creation Failed");
@@ -64,15 +79,5 @@ void	heredoc(t_pipex *pipex, char *limiter)
 		free(line);
 	}
 	close(heredoc_fd);
-	pipex->infile_fd = open("heredoc", O_RDONLY);
-	if (pipex->infile_fd == -1)
-	{
- 	   perror("Opening Heredoc Failed");
- 	   exit(EXIT_FAILURE);
-	}
-	if (unlink("heredoc") == -1)
-    {
-        perror("Failed to remove heredoc file");
-        exit(EXIT_FAILURE);
-    }
+	reopen_heredoc(pipex);
 }

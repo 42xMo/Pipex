@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:21:16 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/29 08:31:10 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:05:33 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	free_string3(t_pipex *pipex, char ***str);
 void	ft_parse_args(t_pipex *pipex, char **argv, int argc);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(char *s);
+void	wait_child(t_pipex *pipex, int pid);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strstrlen(char **str);
 void	free_string2(char **str);
@@ -54,7 +55,7 @@ void	ft_cleanup(t_pipex *pipex);
 void	command_not_found(t_pipex *pipex);
 void	ft_parse_cmds(t_pipex *pipex, char **envp);
 void	child(t_pipex *pipex, char **envp, int *fd, int i);
-void	parent(int *fd);
+void	parent(t_pipex *pipex, int *fd, int pid);
 void	ft_exec(t_pipex *pipex, char **envp, int i);
 void	assign_pipex(t_pipex *pipex, char **argv, int argc, char **envp);
 char	*assign_path(char **envp);

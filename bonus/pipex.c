@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 00:33:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/29 11:35:38 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:11:41 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ void	clean_exit(t_pipex *pipex)
 	exit(0);
 }
 
+void	here_doc(t_pipex *pipex, char **argv, int argc, char **envp)
+{
+	pipex->here_doc = 1;
+	assign_pipex(pipex, argv + 1, argc - 1, envp);
+	heredoc(pipex, argv[2]);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
@@ -42,11 +49,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc >= 5)
 	{
 		if (ft_strncmp(argv[1], "here_doc", 8) == 0 && argc >= 6)
-		{
-			pipex.here_doc = 1;
-			assign_pipex(&pipex, argv + 1, argc - 1, envp);
-			heredoc(&pipex, argv[2]);
-		}
+			here_doc(&pipex, argv, argc, envp);
 		else
 		{
 			pipex.here_doc = 0;
@@ -56,25 +59,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			dup2(pipex.infile_fd, STDIN_FILENO);
 			i = -1;
-			while (++i < pipex.commands - 1) //while (++i < pipex.commands) 
+			while (++i < pipex.commands)
 				ft_exec(&pipex, envp, i);
-			// Wait for all children here and not in exec
-		//needs to be in child
-			if (pipex.invalid_outfile)
-			{
-				perror("Invalid Outfile");
-				ft_cleanup(&pipex);
-				exit(EXIT_FAILURE);
-			}
-			dup2(pipex.outfile_fd, STDOUT_FILENO);
-			if (execve(pipex.cmd_paths[i], pipex.cmd_args[i], envp) < 0)
-			{
-				perror("Execve Failed");
-				ft_cleanup(&pipex);
-				exit(EXIT_FAILURE);
-			}
-		//needs to be in child
-		
 		}
 		else
 			clean_exit(&pipex);

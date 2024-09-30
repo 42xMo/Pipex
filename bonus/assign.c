@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:26:23 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/29 06:38:43 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:07:29 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ void	ft_check_args(t_pipex *pipex, char **argv, int argc)
 	pipex->invalid_outfile = 0;
 	pipex->infile_fd = open(argv[1], O_RDONLY);
 	if (pipex->here_doc)
-		pipex->outfile_fd = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND, 0777);
+		pipex->outfile_fd = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND,
+				0777);
 	else
-		pipex->outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
+		pipex->outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC,
+				0777);
 	if (pipex->infile_fd < 0)
 		pipex->invalid_infile = 1;
 	if (pipex->outfile_fd < 0)
@@ -44,7 +46,7 @@ void	ft_parse_args(t_pipex *pipex, char **argv, int argc)
 	pipex->cmd_args = command_args;
 }
 
-int	fill_cmd_paths(t_pipex *pipex, char	**seperate_paths, int i, int j)
+int	fill_cmd_paths(t_pipex *pipex, char **seperate_paths, int i, int j)
 {
 	char	*temp;
 	char	*temp_path;
