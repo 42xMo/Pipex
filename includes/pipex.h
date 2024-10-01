@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 03:06:06 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/30 15:13:05 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:52:42 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	ft_parse_args(t_pipex *pipex, char **argv, int argc);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);
-void	wait_child(t_pipex *pipex, int pid);
 int		ft_strstrlen(char **str);
 void	free_string2(char **str);
 int		fill_cmd_paths(t_pipex *pipex, char	**seperate_paths, int i, int j);

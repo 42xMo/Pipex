@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:22:43 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/30 15:12:48 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:54:30 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	parent(t_pipex *pipex, int *fd, int pid)
 {
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
-	wait_child(pipex, pid);
 }
 
 void	ft_exec_last(t_pipex *pipex, char **envp, int i)

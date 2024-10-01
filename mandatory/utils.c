@@ -6,7 +6,7 @@
 /*   By: mabdessm <mabdessm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:28:29 by mabdessm          #+#    #+#             */
-/*   Updated: 2024/09/30 15:10:37 by mabdessm         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:52:15 by mabdessm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,6 @@ char	*ft_strdup(char *s)
 	}
 	res[i] = '\0';
 	return (res);
-}
-
-void	wait_child(t_pipex *pipex, int pid)
-{
-	int	i;
-
-	i = -1;
-	while (++i < pipex->commands - 1)
-	{
-		if (strncmp(pipex->cmd_args[0][0], "sleep", 5) == 0)
-		{
-			waitpid(pid, NULL, 0);
-			return ;
-		}
-	}
 }
 
 char	*ft_strjoin(char *s1, char *s2)
